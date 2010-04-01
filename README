@@ -1,0 +1,51 @@
+                          mod_ifdefine_extended
+                 =======================================
+
+------------
+description
+------------
+
+    Apache標準のIfDefineディレクティブの引数に ハッシュっぽい引数使えたらいいな
+    と思って作ってみた。詳しくは usageを
+
+    コンセプト試す物なのであんまりテストしてません。現状JSONのファイルのみをバッ
+    クエンドにしています.YAML、XML等のファイルもサポートできたら楽しそうですねっ
+    てモジュール。
+
+------------
+usage
+------------
+
+    # at first, install json-c 
+
+        http://oss.metaparadigm.com/json-c/
+
+    # vi /tmp/some.json
+    
+        {
+            "www.example.com" : {
+                 "enable" : true
+             }
+        }
+
+    # vi httpd.conf
+
+        LoadModule ifdefine_extended_module modules/mod_ifdefine_extended.so
+        IfDefineExtendedJSON/path/to/some.json
+	IfDefineExtendedDelimiter ->
+    
+        <IfDefineExtended www.example.com->enable>
+            <VirtualHost>
+                ServerName www.example.com
+                DocumentRoot /var/www/
+             </VirtualHost>
+        </IfDefineExtended>
+
+
+    # apachectl restart
+
+------------
+todo
+------------
+
+    IfDefineExtended は名前が微妙な気がするので なんか代替考える
